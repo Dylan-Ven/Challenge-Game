@@ -13,13 +13,13 @@ let previousDisabled = null;
 
 function selectFood(nubmer,id){
 
-    let button = document.getElementById(id);
-
     if(previousFood===null || nubmer === previousFood){
-        button.disabled = true;
+        document.getElementById(id).disabled = true;
+        previousDisabled = id;
         previousFood = nubmer;
         countFoodRaad[nubmer]++;
         if(countFoodRaad[nubmer]==2){
+            previousDisabled = null;
             previousFood = null; 
             Swal.fire({
                 position: "top-end",
@@ -37,22 +37,14 @@ function selectFood(nubmer,id){
             showConfirmButton: false,
             timer: 1500
           });
+          countFoodRaad[previousFood] = 0;
+          previousFood = null;
+          document.getElementById(previousDisabled).disabled = false;
+          previousDisabled = null;
 
-        previousFood = null;
-
-        countFoodRaad.forEach(element => {
-            if(element != 2){
-                element = 0;
-            }
-        });
+        
     }
-    // document.querySelectorAll("button").forEach(btn => {
-    //     let btnId = btn.id;
-    //     let btnNumber = parseInt(btn.getAttribute("data-number")); // Получаем номер еды из data-number
-    //     if (countFoodRaad[btnNumber] !== 2) {
-    //         btn.disabled = false;
-    //     }
-    // });
+    console.log(countFoodRaad);
 }
 
 
