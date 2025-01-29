@@ -1,6 +1,6 @@
 class FoodDisplay {
     constructor(containerId) {
-        this.food = ["banaan", "appel", "tomaat", "Vlees", "Brood", "Kaas"];
+        this.food = ["Cherry", "Pineapple", "Strawberry", "Watermelon", "Avocado", "Banana"];
         this.display = document.getElementById(containerId);
     }
 
@@ -27,7 +27,7 @@ class FoodDisplay {
             }
             
             if (foodfulling[number] < 2) {
-                this.createFood(`<button id="foodIcon${addedItems}" onclick="selectFood(${number},'foodIcon${addedItems}')">` + this.food[number] + "</button>");
+                this.createFood(`<button class="Cards-btn" id="foodIcon${addedItems}" onclick="selectFood(${number},'foodIcon${addedItems}')"><img class="Cards" src="img/${this.food[number]}.svg" alt="${this.food[number]}" /> </button>`);
                 foodfulling[number]++;
                 addedItems++;
             }
