@@ -27,7 +27,7 @@ class FoodDisplay {
             }
             
             if (foodfulling[number] < 2) {
-                this.createFood(`<button class="food${number}" onclick="selectFood(${number})">` + this.food[number] + "</button>");
+                this.createFood(`<button id="foodIcon${addedItems}" onclick="selectFood(${number},'foodIcon${addedItems}')">` + this.food[number] + "</button>");
                 foodfulling[number]++;
                 addedItems++;
             }
