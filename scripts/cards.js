@@ -8,28 +8,28 @@ class FoodDisplay {
         this.matchesFound = 0; // Track matched pairs
         this.totalPairs = this.food.length; // Number of pairs to match
     }
-
+    // Create food buttons and add event listeners
     createFood(buttonId, number) {
         const button = document.createElement("button");
         button.className = "Cards-btn";
         button.id = buttonId;
         button.dataset.foodIndex = number;
-
+        // Create image element
         const img = document.createElement("img");
         img.className = "Cards";
         img.src = "img/Questionmark.svg"; 
         img.alt = "Hidden Food";
-
+        // Add image to button
         button.appendChild(img);
         this.display.appendChild(button);
-
+        // Add event listener to button
         button.addEventListener("click", () => this.selectFood(button));
     }
-
+    // Random number generator
     getRandomInt(max) {
         return Math.floor(Math.random() * max);
     }
-
+    // Create cards
     cardsCreating() {
         let foodfulling = Array(this.food.length).fill(0);
         let totalItems = this.food.length * 2;
@@ -52,7 +52,7 @@ class FoodDisplay {
             }
         }
     }
-
+    // Select food if you clik on it
     selectFood(button) {
         if (button === this.firstSelection) {
             Swal.fire({
@@ -65,8 +65,13 @@ class FoodDisplay {
 
         const number = button.dataset.foodIndex;
         const img = button.querySelector("img");
-        img.src = `img/${this.food[number]}.svg`;
-        img.alt = this.food[number];
+        //animate the cards (open)
+        img.classList.add("flip-animation");
+        setTimeout(() => {
+            img.classList.remove("flip-animation");
+            img.src = `img/${this.food[number]}.svg`;
+            img.alt = this.food[number];
+        }, 250);
 
         if (!this.firstSelection) {
             this.firstSelection = button;
@@ -97,12 +102,27 @@ class FoodDisplay {
                 });
             }
         } else {
-            this.lockBoard = true;
-            setTimeout(() => {
-                this.firstSelection.querySelector("img").src = "img/Questionmark.svg";
-                this.secondSelection.querySelector("img").src = "img/Questionmark.svg";
-                this.resetSelections();
-            }, 350);
+            setTimeout(() =>{
+                this.lockBoard = true;
+                // animate the cards (close)
+                const firstSelectAnimate = this.firstSelection.querySelector("img");
+                const secondSelectAnimate = this.secondSelection.querySelector("img");
+                firstSelectAnimate.classList.add("flip-animation");
+                secondSelectAnimate.classList.add("flip-animation");
+
+                setTimeout(() => {
+                    firstSelectAnimate.classList.remove("flip-animation");
+                    secondSelectAnimate.classList.remove("flip-animation");
+                    firstSelectAnimate.src = "img/Questionmark.svg";
+                    secondSelectAnimate.src = "img/Questionmark.svg";
+                    // Swal.fire({
+                    //     icon: "error",
+                    //     title: "Try Again!",
+                    //     text: "The cards didn't match.",
+                    // });
+                    this.resetSelections();
+                }, 250);
+            },500)
         }
     }
 
@@ -112,7 +132,3 @@ class FoodDisplay {
         this.lockBoard = false;
     }
 }
-
-// Create an instance of FoodDisplay
-const foodDisplay = new FoodDisplay("food-container");
-foodDisplay.cardsCreating();

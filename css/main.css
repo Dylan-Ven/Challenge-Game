@@ -22,7 +22,7 @@
     }
 
     .flip-animation {
-        transform: rotateY(180deg);
+        transform: rotateY(90deg);
     }
 
 }
