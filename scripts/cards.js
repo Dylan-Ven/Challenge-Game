@@ -1,6 +1,12 @@
 class FoodDisplay {
     constructor(containerId) {
         this.food = ["Cherry", "Pineapple", "Strawberry", "Watermelon", "Avocado", "Banana"];
+        this.foodTips = ["Kersen? Tof voor een siroop of een heerlijke smoothie – zoet en fris!",
+             "Ananas is heerlijk in een tropische smoothie, een frisse salsa, of je maakt er een zoete ananascompote van. En natuurlijk mag je het ook gewoon lekker vers eten!",
+              "Aardbeien zijn perfect voor een zoete smoothie, een frisse salsa, of een aardbeienjam. Je kunt ze ook in een lekker toetje verwerken!",
+               "Met een watermeloen maak je verfrissend sap, een zomerse salade, of bevries het in lekkere ijsblokjes!",
+                "Een zachte avocado is ideaal voor guacamole, een romige smoothie, of je smeert het lekker op een toast.",
+                 "Bananen? Maak er bananenbrood, muffins, pannenkoeken, of een lekkere smoothie van – zo veelzijdig!"];
         this.display = document.getElementById(containerId);
         this.firstSelection = null;
         this.secondSelection = null;
@@ -100,10 +106,11 @@ class FoodDisplay {
             this.firstSelection.disabled = true;
             this.secondSelection.disabled = true;
             this.matchesFound++;
+
             Swal.fire({
-                icon: "success",
-                title: "Great!",
-                text: "You found a match!",
+                icon: "info",
+                title: "Tips!",
+                text: this.foodTips[firstFood],
             });
             this.resetSelections();
 
