@@ -1,17 +1,50 @@
 class FoodDisplay {
     constructor(containerId) {
         this.food = ["Cherry", "Pineapple", "Strawberry", "Watermelon", "Avocado", "Banana"];
-        this.foodTips = ["Kersen? Tof voor een siroop of een heerlijke smoothie – zoet en fris!",
-             "Ananas is heerlijk in een tropische smoothie, een frisse salsa, of je maakt er een zoete ananascompote van. En natuurlijk mag je het ook gewoon lekker vers eten!",
-              "Aardbeien zijn perfect voor een zoete smoothie, een frisse salsa, of een aardbeienjam. Je kunt ze ook in een lekker toetje verwerken!",
-               "Met een watermeloen maak je verfrissend sap, een zomerse salade, of bevries het in lekkere ijsblokjes!",
-                "Een zachte avocado is ideaal voor guacamole, een romige smoothie, of je smeert het lekker op een toast.",
-                 "Bananen? Maak er bananenbrood, muffins, pannenkoeken, of een lekkere smoothie van – zo veelzijdig!"];
+        this.foodTips = [
+            "Kersen? Tof voor een siroop of een heerlijke smoothie – zoet en fris!",
+            "Ananas is heerlijk in een tropische smoothie, een frisse salsa, of je maakt er een zoete ananascompote van. En natuurlijk mag je het ook gewoon lekker vers eten!",
+            "Aardbeien zijn perfect voor een zoete smoothie, een frisse salsa, of een aardbeienjam. Je kunt ze ook in een lekker toetje verwerken!",
+            "Met een watermeloen maak je verfrissend sap, een zomerse salade, of bevries het in lekkere ijsblokjes!",
+            "Een zachte avocado is ideaal voor guacamole, een romige smoothie, of je smeert het lekker op een toast.",
+            "Bananen? Maak er bananenbrood, muffins, pannenkoeken, of een lekkere smoothie van – zo veelzijdig!"
+        ];
         this.display = document.getElementById(containerId);
         this.firstSelection = null;
         this.secondSelection = null;
         this.matchesFound = 0; // Track matched pairs
         this.totalPairs = this.food.length; // Number of pairs to match
+
+        // Check for the "points" cookie when initializing the class
+        if (!this.hasCookie("points")) {
+            document.cookie = "points=0";
+        }
+    }
+
+    hasCookie(name) {
+        return document.cookie.split("; ").some(cookie => cookie.startsWith(name + "="));
+    }
+
+    getCookie(name) {
+        const match = document.cookie.split("; ").find(cookie => cookie.startsWith(name + "="));
+        return match ? match.split("=")[1] : null;
+    }
+    
+
+    updatePoints(amount) {
+        let points = 0;
+
+        if(this.hasCookie("points")) {
+            points = parseInt(this.getCookie("points")) || 0;
+        }
+
+        points += amount;
+
+        document.cookie = `points=${points}; path=/; max-age=${60 * 60 * 24 * 7}`;
+
+        document.getElementById("pointsDisplay").textContent = points;
+
+        console.log(`Updated points: ${points}`);
     }
     // Create food buttons and add event listeners
     createFood(buttonId, number) {
@@ -22,7 +55,7 @@ class FoodDisplay {
         // Create image element
         const img = document.createElement("img");
         img.className = "Cards";
-        img.src = "img/Questionmark.svg"; 
+        img.src = "img/Questionmark.svg";
         img.alt = "Hidden Food";
         // Add image to button
         button.appendChild(img);
@@ -30,15 +63,18 @@ class FoodDisplay {
         // Add event listener to button
         button.addEventListener("click", () => this.selectFood(button));
     }
+
     // Random number generator
     getRandomInt(max) {
         return Math.floor(Math.random() * max);
     }
+
     unlockBoard(string = "auto") {
         this.display.querySelectorAll(".Cards-btn").forEach((button) => {
             button.style.pointerEvents = string;
         });
     }
+
     // Create cards
     cardsCreating() {
         let foodfulling = Array(this.food.length).fill(0);
@@ -48,12 +84,12 @@ class FoodDisplay {
         while (addedItems < totalItems) {
             let number = this.getRandomInt(this.food.length);
             let attempts = 0;
-            
+
             while (foodfulling[number] >= 2 && attempts < this.food.length) {
                 number = (number + 1) % this.food.length;
                 attempts++;
             }
-            
+
             if (foodfulling[number] < 2) {
                 const buttonId = `foodIcon${addedItems}`;
                 this.createFood(buttonId, number);
@@ -62,7 +98,8 @@ class FoodDisplay {
             }
         }
     }
-    // Select food if you clik on it
+
+    // Select food if you click on it
     selectFood(button) {
         //----------------------------------------
         if (button === this.firstSelection) {
@@ -82,12 +119,12 @@ class FoodDisplay {
             this.checkMatch();
         }
         //----------------------------------------
-        
+
         // Image of the food
         //----------------------------------------
         const number = button.dataset.foodIndex;
         const img = button.querySelector("img");
-        //animate the cards (open)
+        // Animate the cards (open)
         img.classList.add("flip-animation");
         setTimeout(() => {
             img.classList.remove("flip-animation");
@@ -95,7 +132,7 @@ class FoodDisplay {
             img.alt = this.food[number];
         }, 250);
         //----------------------------------------
-        
+
     }
 
     checkMatch() {
@@ -112,19 +149,23 @@ class FoodDisplay {
                 title: "Tip!",
                 text: this.foodTips[firstFood],
             });
+
+            this.updatePoints(1);
+
             this.resetSelections();
 
             if (this.matchesFound === this.totalPairs) {
                 Swal.fire({
                     icon: "success",
-                    title: "Good gedaan!",
+                    title: "Goed gedaan!",
                     text: `Laatste tip: ${this.foodTips[firstFood]}`,
                 });
+                this.updatePoints(5);
             }
             this.unlockBoard("auto");
         } else {
-            setTimeout(() =>{
-                // animate the cards (close)
+            setTimeout(() => {
+                // Animate the cards (close)
                 const firstSelectAnimate = this.firstSelection.querySelector("img");
                 const secondSelectAnimate = this.secondSelection.querySelector("img");
                 firstSelectAnimate.classList.add("flip-animation");
@@ -135,16 +176,11 @@ class FoodDisplay {
                     secondSelectAnimate.classList.remove("flip-animation");
                     firstSelectAnimate.src = "img/Questionmark.svg";
                     secondSelectAnimate.src = "img/Questionmark.svg";
-                    // Swal.fire({
-                    //     icon: "error",
-                    //     title: "Try Again!",
-                    //     text: "The cards didn't match.",
-                    // });
                     this.resetSelections();
                     this.unlockBoard("auto");
                 }, 250);
-                
-            },500)
+
+            }, 500);
         }
     }
 

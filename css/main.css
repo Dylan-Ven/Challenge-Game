@@ -25,4 +25,17 @@
         transform: rotateY(90deg);
     }
 
+    .image{
+        margin-top: -50px
+    }
+    .points{
+        position: absolute;
+        top: 5px;
+        left: 10px;
+        font-size: large;
+        font-weight: 400;
+    }
+    .swal2-popup{
+        z-index: 9999 !important;
+    }
 }
