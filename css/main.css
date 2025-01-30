@@ -1,9 +1,24 @@
-.Cards{
-    width: 27vw;
+@media only screen and (max-width: 600px) {
+  body {
+    background-color: lightblue;
+  }
+  .Cards{
+    width: 28vw;
     height: auto;
 }
 
 .Cards-btn{
-    width: 27vw;
+    width: 24vw;
     height: auto;
+    background: none;
+    border:none;
+}
+.Cards {
+    transition: transform 0.5s;
+}
+
+.flip-animation {
+    transform: rotateY(180deg);
+}
+
 }
