@@ -109,7 +109,7 @@ class FoodDisplay {
 
             Swal.fire({
                 icon: "info",
-                title: "Tip!",
+                title: "Tip",
                 text: this.foodTips[firstFood],
             });
             this.resetSelections();
@@ -117,7 +117,7 @@ class FoodDisplay {
             if (this.matchesFound === this.totalPairs) {
                 Swal.fire({
                     icon: "success",
-                    title: "Good gedaan!",
+                    title: "Goed gedaan!",
                     text: `Laatste tip: ${this.foodTips[firstFood]}`,
                 });
             }
