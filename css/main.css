@@ -1,24 +1,22 @@
 @media only screen and (max-width: 600px) {
-  body {
-    background-color: lightblue;
-  }
-  .Cards{
-    width: 28vw;
-    height: auto;
-}
+    body {
+        background-color: lightblue;
+    }
+    .Cards{
+        width: 28vw;
+        height: auto;
+        transition: transform 0.5s;
+    }
 
-.Cards-btn{
-    width: 24vw;
-    height: auto;
-    background: none;
-    border:none;
-}
-.Cards {
-    transition: transform 0.5s;
-}
+    .Cards-btn{
+        width: 24vw;
+        height: auto;
+        background: none;
+        border:none;
+    }
 
-.flip-animation {
-    transform: rotateY(180deg);
-}
+    .flip-animation {
+        transform: rotateY(180deg);
+    }
 
 }

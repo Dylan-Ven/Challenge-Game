@@ -54,15 +54,6 @@ class FoodDisplay {
     }
 
     selectFood(button) {
-        if (this.lockBoard) {
-            Swal.fire({
-                icon: "warning",
-                title: "Slow down!",
-                text: "Wait before selecting a new card!",
-            });
-            return;
-        }
-        
         if (button === this.firstSelection) {
             Swal.fire({
                 icon: "error",
@@ -110,13 +101,8 @@ class FoodDisplay {
             setTimeout(() => {
                 this.firstSelection.querySelector("img").src = "img/Questionmark.svg";
                 this.secondSelection.querySelector("img").src = "img/Questionmark.svg";
-                Swal.fire({
-                    icon: "error",
-                    title: "Try Again!",
-                    text: "The cards didn't match.",
-                });
                 this.resetSelections();
-            }, 1000);
+            }, 350);
         }
     }
 
