@@ -109,7 +109,7 @@ class FoodDisplay {
 
             Swal.fire({
                 icon: "info",
-                title: "Tips!",
+                title: "Tip!",
                 text: this.foodTips[firstFood],
             });
             this.resetSelections();
@@ -117,8 +117,8 @@ class FoodDisplay {
             if (this.matchesFound === this.totalPairs) {
                 Swal.fire({
                     icon: "success",
-                    title: "Congratulations!",
-                    text: "You matched all the cards!",
+                    title: "Good gedaan!",
+                    text: `Laatste tip: ${this.foodTips[firstFood]}`,
                 });
             }
             this.unlockBoard("auto");
