@@ -146,7 +146,7 @@ class FoodDisplay {
 
             Swal.fire({
                 icon: "info",
-                title: "Tip!",
+                title: "Tip",
                 text: this.foodTips[firstFood],
             });
 
