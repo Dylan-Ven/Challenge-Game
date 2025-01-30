@@ -159,6 +159,9 @@ class FoodDisplay {
                     icon: "success",
                     title: "Goed gedaan!",
                     text: `Laatste tip: ${this.foodTips[firstFood]}`,
+                    willClose: () => {
+                        location.reload();
+                    },
                 });
                 this.updatePoints(5);
             }
