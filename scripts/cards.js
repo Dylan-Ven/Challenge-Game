@@ -4,7 +4,6 @@ class FoodDisplay {
         this.display = document.getElementById(containerId);
         this.firstSelection = null;
         this.secondSelection = null;
-        this.lockBoard = false;
         this.matchesFound = 0; // Track matched pairs
         this.totalPairs = this.food.length; // Number of pairs to match
     }
@@ -28,6 +27,11 @@ class FoodDisplay {
     // Random number generator
     getRandomInt(max) {
         return Math.floor(Math.random() * max);
+    }
+    unlockBoard(string = "auto") {
+        this.display.querySelectorAll(".Cards-btn").forEach((button) => {
+            button.style.pointerEvents = string;
+        });
     }
     // Create cards
     cardsCreating() {
@@ -54,6 +58,7 @@ class FoodDisplay {
     }
     // Select food if you clik on it
     selectFood(button) {
+        //----------------------------------------
         if (button === this.firstSelection) {
             Swal.fire({
                 icon: "error",
@@ -62,7 +67,18 @@ class FoodDisplay {
             });
             return;
         }
+        if (!this.firstSelection) {
+            this.firstSelection = button;
+        } else {
+            this.unlockBoard("none");
 
+            this.secondSelection = button;
+            this.checkMatch();
+        }
+        //----------------------------------------
+        
+        // Image of the food
+        //----------------------------------------
         const number = button.dataset.foodIndex;
         const img = button.querySelector("img");
         //animate the cards (open)
@@ -72,13 +88,8 @@ class FoodDisplay {
             img.src = `img/${this.food[number]}.svg`;
             img.alt = this.food[number];
         }, 250);
-
-        if (!this.firstSelection) {
-            this.firstSelection = button;
-        } else {
-            this.secondSelection = button;
-            this.checkMatch();
-        }
+        //----------------------------------------
+        
     }
 
     checkMatch() {
@@ -86,6 +97,8 @@ class FoodDisplay {
         const secondFood = this.secondSelection.dataset.foodIndex;
 
         if (firstFood === secondFood) {
+            this.firstSelection.disabled = true;
+            this.secondSelection.disabled = true;
             this.matchesFound++;
             Swal.fire({
                 icon: "success",
@@ -101,9 +114,9 @@ class FoodDisplay {
                     text: "You matched all the cards!",
                 });
             }
+            this.unlockBoard("auto");
         } else {
             setTimeout(() =>{
-                this.lockBoard = true;
                 // animate the cards (close)
                 const firstSelectAnimate = this.firstSelection.querySelector("img");
                 const secondSelectAnimate = this.secondSelection.querySelector("img");
@@ -121,7 +134,9 @@ class FoodDisplay {
                     //     text: "The cards didn't match.",
                     // });
                     this.resetSelections();
+                    this.unlockBoard("auto");
                 }, 250);
+                
             },500)
         }
     }
@@ -129,6 +144,5 @@ class FoodDisplay {
     resetSelections() {
         this.firstSelection = null;
         this.secondSelection = null;
-        this.lockBoard = false;
     }
 }
