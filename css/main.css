@@ -1,13 +1,24 @@
-#container {
-    background-color: red;
-  }
-
 @media only screen and (max-width: 600px) {
-    #container {
-      background-color: blue;
-      width: 100%;
-      height: 100%;
-      +
-    }
+  body {
+    background-color: lightblue;
   }
-    
+  .Cards{
+    width: 28vw;
+    height: auto;
+}
+
+.Cards-btn{
+    width: 24vw;
+    height: auto;
+    background: none;
+    border:none;
+}
+.Cards {
+    transition: transform 0.5s;
+}
+
+.flip-animation {
+    transform: rotateY(180deg);
+}
+
+}
