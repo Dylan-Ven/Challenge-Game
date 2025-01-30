@@ -1,6 +1,6 @@
 @media only screen and (max-width: 600px) {
     body {
-        background-image: url('../img/Food_Memory_Prototype.png');
+        background-image: url('../img/background.png');
         background-size: cover; /* This ensures the image covers the entire screen */
         background-position: center center; /* Centers the image */
         background-repeat: no-repeat; /* Prevents the image from repeating */
