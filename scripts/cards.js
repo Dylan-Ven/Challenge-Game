@@ -15,37 +15,27 @@ class FoodDisplay {
         this.matchesFound = 0; // Track matched pairs
         this.totalPairs = this.food.length; // Number of pairs to match
 
-        // Check for the "points" cookie when initializing the class
-        if (!this.hasCookie("points")) {
-            document.cookie = "points=0";
+        document.cookie = "points=0";
+    }
+
+     getCookie(name) {
+        const nameEQ = name + "=";
+        const ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
         }
-    }
-
-    hasCookie(name) {
-        return document.cookie.split("; ").some(cookie => cookie.startsWith(name + "="));
-    }
-
-    getCookie(name) {
-        const match = document.cookie.split("; ").find(cookie => cookie.startsWith(name + "="));
-        return match ? match.split("=")[1] : null;
+        return null;
     }
     
-
     updatePoints(amount) {
-        let points = 0;
 
-        if(this.hasCookie("points")) {
-            points = parseInt(this.getCookie("points")) || 0;
-        }
+        document.cookie = "points="+(parseInt(this.getCookie("points"))+amount);
+        document.getElementById("pointsDisplay").textContent = this.getCookie("points");
 
-        points += amount;
-
-        document.cookie = `points=${points}; path=/; max-age=${60 * 60 * 24 * 7}`;
-
-        document.getElementById("pointsDisplay").textContent = points;
-
-        console.log(`Updated points: ${points}`);
     }
+    
     // Create food buttons and add event listeners
     createFood(buttonId, number) {
         const button = document.createElement("button");
@@ -160,6 +150,7 @@ class FoodDisplay {
                     title: "Goed gedaan!",
                     text: `Laatste tip: ${this.foodTips[firstFood]}`,
                     willClose: () => {
+                        document.cookie = "points=0";
                         location.reload();
                     },
                 });
